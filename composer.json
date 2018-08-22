@@ -1,0 +1,46 @@
+{
+  "name": "bpopescu/yii2-rbac",
+  "description": "RBAC management module for Yii2",
+  "keywords": [
+    "yii2",
+    "yii2-rbac",
+    "rbac management",
+    "rbac gui",
+    "yii rbac",
+    "rbac module"
+  ],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "support": {
+    "source": "https://github.com/bpopescu/yii2-rbac"
+  },
+  "authors": [
+    {
+      "name": "Dmitry Erofeev",
+      "email": "dmeroff@gmail.com",
+      "homepage": "http://dmeroff.ru"
+    },
+    {
+      "name": "Bogdan Popescu",
+      "email": "bogdan@bxg.ro",
+      "homepage": "https://bxg.ro"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "yiisoft/yii2": "^2.0.8",
+    "bower-asset/jquery": "*",
+    "kartik-v/yii2-widget-select2": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "bpopescu\\rbac\\": ""
+    }
+  },
+  "extra": {
+    "bootstrap": "bpopescu\\rbac\\Bootstrap",
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}
