@@ -76,14 +76,14 @@ class Search extends Model
     {
         $dataProvider = \Yii::createObject(ArrayDataProvider::className());
         
-        $query = (new Query)->select(['name', 'description', 'rule_name'])
+        $query = (new Query)->select(['id', 'name', 'description', 'auth_rule_id'])
                 ->andWhere(['type' => $this->type])
                 ->from($this->manager->itemTable);
         
         if ($this->load($params) && $this->validate()) {
             $query->andFilterWhere(['like', 'name', $this->name])
-                ->andFilterWhere(['like', 'description', $this->description])
-                ->andFilterWhere(['like', 'rule_name', $this->rule_name]);
+                ->andFilterWhere(['like', 'description', $this->description]);
+//                ->andFilterWhere(['like', 'rule_name', $this->rule_name]);
         }
         
         $dataProvider->allModels = $query->all($this->manager->db);

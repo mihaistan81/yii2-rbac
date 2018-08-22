@@ -15,7 +15,7 @@ use yii\base\InvalidConfigException;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use yii\helpers\Json;
-use yii\rbac\Item;
+use bpopescu\rbac\Item;
 use bpopescu\rbac\validators\RbacValidator;
 
 /**
@@ -23,6 +23,11 @@ use bpopescu\rbac\validators\RbacValidator;
  */
 abstract class AuthItem extends Model
 {
+    /**
+     * @var int
+     */
+    public $id;
+
     /**
      * @var string
      */
@@ -54,7 +59,7 @@ abstract class AuthItem extends Model
     public $children = [];
 
     /**
-     * @var \yii\rbac\Role|\yii\rbac\Permission
+     * @var \bpopescu\rbac\Role|\bpopescu\rbac\Permission
      */
     public $item;
 
@@ -73,7 +78,7 @@ abstract class AuthItem extends Model
         if ($this->item instanceof Item) {
             $this->name        = $this->item->name;
             $this->description = $this->item->description;
-            $this->children    = array_keys($this->manager->getChildren($this->item->name));
+            $this->children    = array_keys($this->manager->getChildren($this->item->id));
 
             try {
                 if (is_object($this->item->data)) {
@@ -190,7 +195,7 @@ abstract class AuthItem extends Model
      */
     protected function updateChildren()
     {
-        $children = $this->manager->getChildren($this->item->name);
+        $children = $this->manager->getChildren($this->item->id);
         $childrenNames = array_keys($children);
 
         if (is_array($this->children)) {
@@ -214,7 +219,7 @@ abstract class AuthItem extends Model
 
     /**
      * @param  string         $name
-     * @return \yii\rbac\Item
+     * @return \bpopescu\rbac\Item
      */
     abstract protected function createItem($name);
 }

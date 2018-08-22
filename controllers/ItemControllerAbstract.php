@@ -25,10 +25,10 @@ use bpopescu\rbac\models\Search;
 abstract class ItemControllerAbstract extends Controller
 {
     /**
-     * @param  string $name
+     * @param  int $id
      * @return \bpopescu\rbac\models\Role|\bpopescu\rbac\models\Permission
      */
-    abstract protected function getItem($name);
+    abstract protected function getItem($id);
 
     /**
      * @var int
@@ -93,15 +93,15 @@ abstract class ItemControllerAbstract extends Controller
 
     /**
      * Shows update form.
-     * @param  string $name
+     * @param  int $id
      * @return string|Response
      * @throws NotFoundHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionUpdate($name)
+    public function actionUpdate($id)
     {
         /** @var \bpopescu\rbac\models\Role|\bpopescu\rbac\models\Permission $model */
-        $item  = $this->getItem($name);
+        $item  = $this->getItem($id);
         $model = \Yii::createObject([
             'class'    => $this->modelClass,
             'scenario' => 'update',
@@ -121,13 +121,13 @@ abstract class ItemControllerAbstract extends Controller
 
     /**
      * Deletes item.
-     * @param  string $name
+     * @param  int $id
      * @return Response
      * @throws NotFoundHttpException
      */
-    public function actionDelete($name)
+    public function actionDelete($id)
     {
-        $item = $this->getItem($name);
+        $item = $this->getItem($id);
         \Yii::$app->authManager->remove($item);
         return $this->redirect(['index']);
     }

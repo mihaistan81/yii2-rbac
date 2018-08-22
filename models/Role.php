@@ -24,16 +24,16 @@ class Role extends AuthItem
     public function getUnassignedItems()
     {
         $data  = [];
-        $items = $this->manager->getItems(null, $this->item !== null ? [$this->item->name] : []);
+        $items = $this->manager->getItems(null, $this->item !== null ? [$this->item->id] : []);
 
         if ($this->item === null) {
             foreach ($items as $item) {
-                $data[$item->name] = $this->formatName($item);
+                $data[$item->id] = $this->formatName($item);
             }
         } else {
             foreach ($items as $item) {
                 if ($this->manager->canAddChild($this->item, $item)) {
-                    $data[$item->name] = $this->formatName($item);
+                    $data[$item->id] = $this->formatName($item);
                 }
             }
         }
