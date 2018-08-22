@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'class'      => ActionColumn::className(),
             'template'   => '{update} {delete}',
             'urlCreator' => function ($action, $model) {
-                return Url::to(['/rbac/permission/' . $action, 'name' => $model['name']]);
+                return Url::to(['/rbac/permission/' . $action, 'id' => $model['id']]);
             },
             'options'   => [
                 'style' => 'width: 5%'

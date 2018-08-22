@@ -11,9 +11,9 @@
 
 namespace bpopescu\rbac\controllers;
 
-use yii\rbac\Role;
+use bpopescu\rbac\Role;
 use yii\web\NotFoundHttpException;
-use yii\rbac\Item;
+use bpopescu\rbac\Item;
 
 /**
  * @author Dmitry Erofeev <dmeroff@gmail.com>
@@ -26,9 +26,9 @@ class RoleController extends ItemControllerAbstract
     protected $type = Item::TYPE_ROLE;
 
     /** @inheritdoc */
-    protected function getItem($name)
+    protected function getItem($id)
     {
-        $role = \Yii::$app->authManager->getRole($name);
+        $role = \Yii::$app->authManager->getRole($id);
 
         if ($role instanceof Role) {
             return $role;

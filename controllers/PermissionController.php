@@ -11,9 +11,9 @@
 
 namespace bpopescu\rbac\controllers;
 
-use yii\rbac\Permission;
+use bpopescu\rbac\Permission;
 use yii\web\NotFoundHttpException;
-use yii\rbac\Item;
+use bpopescu\rbac\Item;
 
 /**
  * @author Dmitry Erofeev <dmeroff@gmail.com>
@@ -27,9 +27,9 @@ class PermissionController extends ItemControllerAbstract
     protected $type = Item::TYPE_PERMISSION;
 
     /** @inheritdoc */
-    protected function getItem($name)
+    protected function getItem($id)
     {
-        $role = \Yii::$app->authManager->getPermission($name);
+        $role = \Yii::$app->authManager->getPermission($id);
 
         if ($role instanceof Permission) {
             return $role;

@@ -115,7 +115,7 @@ class Assignment extends Model
      */
     public function getAvailableItems()
     {
-        return ArrayHelper::map($this->manager->getItems(), 'name', function ($item) {
+        return ArrayHelper::map($this->manager->getItems(), 'id', function ($item) {
             return empty($item->description)
                 ? $item->name
                 : $item->name . ' (' . $item->description . ')';
