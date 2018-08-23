@@ -123,9 +123,11 @@ class DbManager extends BaseDbManager implements ManagerInterface
         }
 
         $query = new Query;
-        $parents = $query->select(['parent_auth_item_id'])
-                         ->from($this->itemChildTable)
-                         ->where(['child_auth_item_id' => $itemId])
+        $parents = $query->select(['c.name'])
+                         ->from(['a' => $this->itemTable])
+                         ->innerJoin(['b' => $this->itemChildTable], '{{b}}.[[child_auth_item_id]] = {{a}}.[[id]]')
+                         ->innerJoin(['c' => $this->itemTable], '{{c}}.[[id]] = {{b}}.[[parent_auth_item_id]]')
+                         ->where(['{{a}}.[[name]]' => $itemId])
                          ->column($this->db);
 
         foreach ($parents as $parent) {
