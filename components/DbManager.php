@@ -11,6 +11,7 @@
 
 namespace bpopescu\rbac\components;
 
+use yii\rbac\Assignment;
 use bpopescu\rbac\Role;
 use bpopescu\rbac\Permission;
 use yii\db\Expression;
@@ -107,13 +108,13 @@ class DbManager extends BaseDbManager implements ManagerInterface
      */
     protected function checkAccessRecursive($user, $itemId, $params, $assignments)
     {
-        if (($item = $this->getItem($itemId)) === null) {
+        if (($item = $this->getItemByName($itemId)) === null) {
             return false;
         }
 
-        Yii::trace($item instanceof Role ? "Checking role: $itemId" : "Checking permission: $itemId", __METHOD__);
+        \Yii::trace($item instanceof Role ? "Checking role: $itemId" : "Checking permission: $itemId", __METHOD__);
 
-        if (!$this->executeRule($item, $params)) {
+        if (!$this->executeRule($user, $item, $params)) {
             return false;
         }
 
@@ -143,6 +144,26 @@ class DbManager extends BaseDbManager implements ManagerInterface
     {
         $row = (new Query)->from($this->itemTable)
                           ->where(['id' => $id])
+                          ->one($this->db);
+
+        if ($row === false) {
+            return null;
+        }
+
+        if (!isset($row['data']) || ($data = @unserialize($row['data'])) === false) {
+            $data = null;
+        }
+
+        return $this->populateItem($row);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getItemByName($name)
+    {
+        $row = (new Query)->from($this->itemTable)
+                          ->where(['name' => $name])
                           ->one($this->db);
 
         if ($row === false) {
@@ -481,7 +502,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
             $data = null;
         }
 
-        return new Assignment([
+        return new \yii\rbac\Assignment([
             'userId' => $row['user_id'],
             'roleName' => $row['auth_item_id'],
             'createdAt' => $row['created_at'],
@@ -494,17 +515,19 @@ class DbManager extends BaseDbManager implements ManagerInterface
     public function getAssignments($userId)
     {
         $query = (new Query)
-            ->from($this->assignmentTable)
-            ->where(['user_id' => $userId]);
+            ->select(['a.*', 'b.name'])
+            ->from(['a' => $this->assignmentTable, 'b' => $this->itemTable])
+            ->where('{{a}}.[[auth_item_id]]={{b}}.[[id]]')
+            ->andWhere(['a.user_id' => $userId]);
 
         $assignments = [];
         foreach ($query->all($this->db) as $row) {
             if (!isset($row['data']) || ($data = @unserialize($row['data'])) === false) {
                 $data = null;
             }
-            $assignments[$row['auth_item_id']] = new Assignment([
+            $assignments[$row['name']] = new \yii\rbac\Assignment([
                 'userId' => $row['user_id'],
-                'roleName' => $row['auth_item_id'],
+                'roleName' => $row['name'],
                 'createdAt' => $row['created_at'],
             ]);
         }
