@@ -18,8 +18,7 @@ use bpopescu\rbac\widgets\Menu;
 
 ?>
 
-<?= Menu::widget() ?>
-
-<div style="padding: 10px 0">
+<div class="container">
+    <?= Menu::widget() ?>
     <?= $content ?>
 </div>

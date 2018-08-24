@@ -30,29 +30,6 @@ use yii\helpers\Html;
 
 <?= $form->field($model, 'description')->textarea() ?>
 
-<?= $form->field($model, 'rule')->widget(Select2::className(), [
-    'options'   => [
-        'placeholder' => Yii::t('rbac', 'Select rule'),
-    ],
-    'pluginOptions' => [
-        'ajax' => [
-            'url'  => Url::to(['/rbac/rule/search']),
-            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-        ],
-        'allowClear' => true,
-    ],
-]) ?>
-
-<?php if ($model->dataCannotBeDecoded): ?>
-    <div class="alert alert-info">
-        <?= Yii::t('rbac', 'Data cannot be decoded') ?>
-    </div>
-<?php else: ?>
-    <?= $form->field($model, 'data')->textarea([
-        'rows' => 3
-    ]) ?>
-<?php endif ?>
-
 <?= $form->field($model, 'children')->widget(Select2::className(), [
     'data' => $model->getUnassignedItems(),
     'options' => [
