@@ -66,24 +66,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'placeholder' => Yii::t('rbac', 'Enter the description')
             ],
         ],
-        [
-            'attribute' => 'rule_name',
-            'header'    => Yii::t('rbac', 'Rule name'),
-            'options'   => [
-                'style' => 'width: 20%'
-            ],
-            'filter' => Select2::widget([
-                'model'     => $filterModel,
-                'attribute' => 'rule_name',
-                'data'      => $filterModel->getRuleList(),
-                'options'   => [
-                    'placeholder' => Yii::t('rbac', 'Select rule'),
-                ],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                ],
-            ]),
-        ],
+//        [
+//            'attribute' => 'rule_name',
+//            'header'    => Yii::t('rbac', 'Rule name'),
+//            'options'   => [
+//                'style' => 'width: 20%'
+//            ],
+//            'filter' => Select2::widget([
+//                'model'     => $filterModel,
+//                'attribute' => 'rule_name',
+//                'data'      => $filterModel->getRuleList(),
+//                'options'   => [
+//                    'placeholder' => Yii::t('rbac', 'Select rule'),
+//                ],
+//                'pluginOptions' => [
+//                    'allowClear' => true,
+//                ],
+//            ]),
+//        ],
         [
             'class'      => ActionColumn::className(),
             'template'   => '{update} {delete}',
