@@ -207,7 +207,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
                      'type' => $item->type,
                      'description' => $item->description,
                      'auth_rule_id' => $item->ruleName,
-                     'data' => $item->data === null ? null : serialize($item->data),
+//                     'data' => $item->data === null ? null : serialize($item->data),
                      'created_at' => $item->createdAt,
                      'updated_at' => $item->updatedAt,
                  ])->execute();
@@ -260,7 +260,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
                      'name' => $item->name,
                      'description' => $item->description,
                      'auth_rule_id' => $item->ruleId,
-                     'data' => $item->data === null ? null : serialize($item->data),
+//                     'data' => $item->data === null ? null : serialize($item->data),
                      'updated_at' => $item->updatedAt,
                  ], [
                      'id' => $id,
@@ -284,7 +284,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
         $this->db->createCommand()
                  ->insert($this->ruleTable, [
                      'name' => $rule->name,
-                     'data' => serialize($rule),
+//                     'data' => serialize($rule),
                      'created_at' => $rule->createdAt,
                      'updated_at' => $rule->updatedAt,
                  ])->execute();
@@ -308,7 +308,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
         $this->db->createCommand()
                  ->update($this->ruleTable, [
                      'name' => $rule->name,
-                     'data' => serialize($rule),
+//                     'data' => serialize($rule),
                      'updated_at' => $rule->updatedAt,
                  ], [
                      'name' => $name,
@@ -354,7 +354,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
             'type' => $row['type'],
             'description' => $row['description'],
             'ruleId' => $row['auth_rule_id'],
-            'data' => $data,
+//            'data' => $data,
             'createdAt' => $row['created_at'],
             'updatedAt' => $row['updated_at'],
         ]);
@@ -590,7 +590,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
     public function getChildren($id)
     {
         $query = (new Query())
-            ->select(['a.id','name', 'type', 'description', 'auth_rule_id', 'data', 'created_at', 'updated_at'])
+            ->select(['a.id','name', 'type', 'description', 'auth_rule_id', 'created_at', 'updated_at'])
             ->from(['a' => $this->itemTable, 'b' => $this->itemChildTable])
             ->where(['parent_auth_item_id' => $id, 'a.id' => new Expression('[[child_auth_item_id]]')]);
 
