@@ -40,9 +40,9 @@ class DbManager extends BaseDbManager implements ManagerInterface
             ->from($this->itemTable);
 
         if ($type !== null) {
-            $query->where(['type' => $type]);
+            $query->where(['type_id' => $type]);
         } else {
-            $query->orderBy('type');
+            $query->orderBy('type_id');
         }
 
         foreach ($excludeItems as $name) {
@@ -71,9 +71,9 @@ class DbManager extends BaseDbManager implements ManagerInterface
         }
 
         $query = (new Query)->select('b.*')
-            ->from(['a' => $this->assignmentTable, 'b' => $this->itemTable])
-            ->where('{{a}}.[[auth_item_id]]={{b}}.[[name]]')
-            ->andWhere(['a.user_id' => (string) $userId]);
+                            ->from(['a' => $this->assignmentTable, 'b' => $this->itemTable])
+                            ->where('{{a}}.[[auth_item_id]]={{b}}.[[name]]')
+                            ->andWhere(['a.user_id' => (string) $userId]);
 
         $roles = [];
         foreach ($query->all($this->db) as $row) {
@@ -342,7 +342,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
      */
     protected function populateItem($row)
     {
-        $class = $row['type'] == Item::TYPE_PERMISSION ? Permission::className() : Role::className();
+        $class = ($row['type_id'] == Item::TYPE_PERMISSION) ? Permission::className() : Role::className();
 
         if (!isset($row['data']) || ($data = @unserialize($row['data'])) === false) {
             $data = null;
@@ -351,7 +351,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
         return new $class([
             'id' => $row['id'],
             'name' => $row['name'],
-            'type' => $row['type'],
+            'type' => $row['type_id'],
             'description' => $row['description'],
             'ruleId' => $row['auth_rule_id'],
 //            'data' => $data,
@@ -590,7 +590,7 @@ class DbManager extends BaseDbManager implements ManagerInterface
     public function getChildren($id)
     {
         $query = (new Query())
-            ->select(['a.id','name', 'type', 'description', 'auth_rule_id', 'created_at', 'updated_at'])
+            ->select(['a.id','name', 'type_id', 'description', 'auth_rule_id', 'created_at', 'updated_at'])
             ->from(['a' => $this->itemTable, 'b' => $this->itemChildTable])
             ->where(['parent_auth_item_id' => $id, 'a.id' => new Expression('[[child_auth_item_id]]')]);
 

@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Search model for auth items (roles and permissions).
- * 
+ *
  * @author Dmitry Erofeev <dmeroff@gmail.com>
  */
 class Search extends Model
@@ -27,22 +27,22 @@ class Search extends Model
      * @var string
      */
     public $name;
-    
+
     /**
      * @var string
      */
     public $description;
-    
+
     /**
      * @var string
      */
     public $rule_name;
-    
+
     /**
      * @var \bpopescu\rbac\components\DbManager
      */
     protected $manager;
-    
+
     /**
      * @var int
      */
@@ -57,7 +57,7 @@ class Search extends Model
         $this->manager = \Yii::$app->authManager;
         $this->type    = $type;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -67,7 +67,7 @@ class Search extends Model
             'default' => ['name', 'description', 'rule_name'],
         ];
     }
-    
+
     /**
      * @param  array $params
      * @return ArrayDataProvider
@@ -75,19 +75,19 @@ class Search extends Model
     public function search($params = [])
     {
         $dataProvider = \Yii::createObject(ArrayDataProvider::className());
-        
+
         $query = (new Query)->select(['id', 'name', 'description', 'auth_rule_id'])
-                ->andWhere(['type' => $this->type])
-                ->from($this->manager->itemTable);
-        
+                            ->andWhere(['type_id' => $this->type])
+                            ->from($this->manager->itemTable);
+
         if ($this->load($params) && $this->validate()) {
             $query->andFilterWhere(['like', 'name', $this->name])
-                ->andFilterWhere(['like', 'description', $this->description]);
+                  ->andFilterWhere(['like', 'description', $this->description]);
 //                ->andFilterWhere(['like', 'rule_name', $this->rule_name]);
         }
-        
+
         $dataProvider->allModels = $query->all($this->manager->db);
-        
+
         return $dataProvider;
     }
 
@@ -100,7 +100,7 @@ class Search extends Model
     {
         $rows = (new Query)
             ->select(['name'])
-            ->andWhere(['type' => $this->type])
+            ->andWhere(['type_id' => $this->type])
             ->from($this->manager->itemTable)
             ->all($this->manager->db);
 
@@ -109,7 +109,7 @@ class Search extends Model
 
     /**
      * Returns list of rule names.
-     * 
+     *
      * @return array
      */
     public function getRuleList()
