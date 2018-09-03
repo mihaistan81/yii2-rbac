@@ -1,5 +1,5 @@
 {
-  "name": "bpopescu/yii2-rbac",
+  "name": "mihaistan81/yii2-rbac",
   "description": "RBAC management module for Yii2",
   "keywords": [
     "yii2",
@@ -12,7 +12,7 @@
   "type": "yii2-extension",
   "license": "MIT",
   "support": {
-    "source": "https://github.com/bpopescu/yii2-rbac"
+    "source": "https://github.com/mihaistan81/yii2-rbac"
   },
   "authors": [
     {
@@ -21,14 +21,14 @@
       "homepage": "http://dmeroff.ru"
     },
     {
-      "name": "Bogdan Popescu",
-      "email": "bogdan@bxg.ro",
-      "homepage": "https://bxg.ro"
+      "name": "Mihai Stan",
+      "email": "mihai.stan@amoma.com",
+      "homepage": "https://www.amoma.com"
     }
   ],
   "minimum-stability": "dev",
   "require": {
-    "yiisoft/yii2": "^2.0.8",
+    "yiisoft/yii2": "^2.0.0",
     "bower-asset/jquery": "*",
     "kartik-v/yii2-widget-select2": "^2.0"
   },
@@ -38,7 +38,7 @@
     }
   },
   "extra": {
-    "bootstrap": "bpopescu\\rbac\\Bootstrap",
+    "bootstrap": "mihaistan81\\rbac\\Bootstrap",
     "branch-alias": {
       "dev-master": "1.0.x-dev"
     }
